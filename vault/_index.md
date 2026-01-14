@@ -19,15 +19,20 @@ Per-service and per-component documentation.
 
 ### Operations
 Runbooks, standard operating procedures, and incident response.
-- *Start adding links as docs are created*
+- [[operations/deployment-status-2026-01-13-0513|Deployment Status (2026-01-13)]] - Agent deployment verification
+- [[operations/cortex-status-2026-01-13-0707|Cortex Status (2026-01-13)]] - Outline removal validation
+- [[operations/outline-blocker-2026-01-13|Outline Blocker]] - Network connectivity issue
 
 ### Knowledge
 Extracted insights, learnings, and tribal knowledge made explicit.
-- *Start adding links as docs are created*
+- [[knowledge/langflow-chat-integration-design|Langflow Chat Integration Design]] - Three-phase integration plan
+- [[knowledge/langflow-mcp-server-implementation|Langflow MCP Server]] - Pattern-based routing implementation
 
 ### Projects
 Bounded efforts with defined scope, timeline, and outcomes.
-- *Start adding links as docs are created*
+- [[projects/documentation-system-2026-01-14|Documentation System]] - Self-managing Obsidian vault with curator
+- [[projects/langflow-integration-2026-01-13|Langflow Integration]] - 12 workflows with MCP integration
+- [[projects/langflow-workflows-2026-01-13|Langflow Workflows]] - 10 production-ready workflow definitions
 
 ---
 
@@ -50,4 +55,4 @@ Common tags used across the vault:
 
 ---
 
-*Last manual update: 2025-01-13*
+*Last manual update: 2026-01-14*

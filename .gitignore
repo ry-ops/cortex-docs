@@ -1,0 +1,30 @@
+# Obsidian
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/plugins/
+.obsidian/core-plugins-migration.json
+.obsidian/hotkeys.json
+
+# Keep these obsidian configs in git
+!.obsidian/app.json
+!.obsidian/appearance.json
+!.obsidian/graph.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs (future)
+site/
+public/
+dist/
+
+# Editor
+*.swp
+*.swo
+*~
+
+# Secrets (if any slip in)
+.env
+*.key
+*.pem

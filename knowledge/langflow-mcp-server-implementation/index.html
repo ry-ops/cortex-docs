@@ -1,0 +1,2681 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-managing knowledge base for Cortex">
+      
+      
+      
+        <link rel="canonical" href="https://docs.ry-ops.dev/knowledge/langflow-mcp-server-implementation/">
+      
+      
+        <link rel="prev" href="../langflow-chat-integration-design/">
+      
+      
+        <link rel="next" href="../../meta/curation-workflow/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Langflow MCP Server Implementation - Cortex Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#langflow-chat-mcp-integration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cortex Documentation" class="md-header__button md-logo" aria-label="Cortex Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cortex Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Langflow MCP Server Implementation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ry-ops/cortex-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ry-ops/cortex-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../_index/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Cortex Knowledge Index
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../_inbox/PROMPT-cortex-docs-genesis/" class="md-tabs__link">
+          
+  
+  
+   inbox
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../langflow-chat-integration-design/" class="md-tabs__link">
+          
+  
+  
+  Knowledge
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../meta/curation-workflow/" class="md-tabs__link">
+          
+  
+  
+  Meta
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../operations/cortex-status-2026-01-13-0707/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../projects/documentation-system-2026-01-14/" class="md-tabs__link">
+          
+  
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cortex Documentation" class="md-nav__button md-logo" aria-label="Cortex Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cortex Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ry-ops/cortex-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ry-ops/cortex-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cortex Knowledge Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+     inbox
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+     inbox
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_inbox/PROMPT-cortex-docs-genesis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Genesis Prompt: cortex-docs Repository
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Knowledge
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../langflow-chat-integration-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langflow Chat Integration Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langflow MCP Server Implementation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langflow MCP Server Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-was-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Was Built
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Was Built">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-langflow-chat-mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Langflow Chat MCP Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intent-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intent Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubernetes-manifests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kubernetes Manifests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Status
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Current Status">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Completed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏸️ Blocked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-build-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Manual Build Required
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manual-build-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Build Instructions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manual Build Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-build-on-local-machine-with-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Build on Local Machine with Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-build-on-k3s-node-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Build on K3s Node Directly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-fix-kaniko-build-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: Fix Kaniko Build Job
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps-after-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps After Build
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps After Build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-deploy-the-mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Deploy the MCP Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-update-chat-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Update Chat Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-import-workflows-into-langflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Import Workflows into Langflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-configure-workflow-ids-in-mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Configure Workflow IDs in MCP Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-add-workflow-quick-buttons-to-chat-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Add Workflow Quick Buttons to Chat UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-test-end-to-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Test End-to-End
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mcp-tools-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP Tools Available
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MCP Tools Available">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_workflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_workflow_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        set_workflow_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mcp-server-wont-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP Server Won't Start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-not-triggering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow Not Triggering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chat-still-goes-to-orchestrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chat Still Goes to Orchestrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langflow-returns-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Langflow Returns Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-this-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits of This Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Enhancements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Files Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cortex-platform-code-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-platform (Code Repository)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cortex-gitops-infrastructure-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-gitops (Infrastructure Repository)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desktop-deliverables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desktop (Deliverables)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommended-next-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Next Action
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Meta
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Meta
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../meta/curation-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Curation Workflow
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--design"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/cortex-status-2026-01-13-0707/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cortex Status Update 2026-01-13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/deployment-status-2026-01-13-0513/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Status 2026-01-13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/outline-blocker-2026-01-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outline Deployment Blocker
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--blocked"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/documentation-system-2026-01-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation System
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--completed"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/langflow-integration-2026-01-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langflow Integration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--completed"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/langflow-workflows-2026-01-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langflow Workflows
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--completed"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-was-built" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Was Built
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Was Built">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-langflow-chat-mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Langflow Chat MCP Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intent-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intent Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubernetes-manifests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kubernetes Manifests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Status
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Current Status">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Completed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏸️ Blocked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-build-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Manual Build Required
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manual-build-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Build Instructions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manual Build Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-build-on-local-machine-with-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Build on Local Machine with Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-build-on-k3s-node-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Build on K3s Node Directly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-fix-kaniko-build-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: Fix Kaniko Build Job
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps-after-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps After Build
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps After Build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-deploy-the-mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Deploy the MCP Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-update-chat-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Update Chat Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-import-workflows-into-langflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Import Workflows into Langflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-configure-workflow-ids-in-mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Configure Workflow IDs in MCP Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-add-workflow-quick-buttons-to-chat-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Add Workflow Quick Buttons to Chat UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-test-end-to-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Test End-to-End
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mcp-tools-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP Tools Available
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MCP Tools Available">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_workflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_workflow_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        set_workflow_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mcp-server-wont-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP Server Won't Start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-not-triggering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow Not Triggering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chat-still-goes-to-orchestrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chat Still Goes to Orchestrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langflow-returns-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Langflow Returns Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-this-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits of This Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Enhancements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Files Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cortex-platform-code-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-platform (Code Repository)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cortex-gitops-infrastructure-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-gitops (Infrastructure Repository)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desktop-deliverables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desktop (Deliverables)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommended-next-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Next Action
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <nav class="md-tags" >
+    
+      
+      
+      
+      
+        <span class="md-tag">chat</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">langflow</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">mcp</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">routing</span>
+      
+    
+  </nav>
+
+
+  
+    <a href="https://github.com/ry-ops/cortex-docs/edit/main/vault/knowledge/langflow-mcp-server-implementation.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="langflow-chat-mcp-integration">Langflow Chat MCP Integration<a class="headerlink" href="#langflow-chat-mcp-integration" title="Permanent link">&para;</a></h1>
+<p><strong>Status</strong>: Code Complete - Manual Build Required
+<strong>Date</strong>: January 13, 2026</p>
+<hr />
+<h2 id="what-was-built">What Was Built<a class="headerlink" href="#what-was-built" title="Permanent link">&para;</a></h2>
+<h3 id="1-langflow-chat-mcp-server">1. Langflow Chat MCP Server<a class="headerlink" href="#1-langflow-chat-mcp-server" title="Permanent link">&para;</a></h3>
+<p><strong>Location</strong>: <code>~/Projects/cortex-platform/services/mcp-servers/langflow-chat/</code></p>
+<p><strong>Purpose</strong>: Routes chat messages to Langflow workflows using pattern-based intent detection</p>
+<p><strong>Features</strong>:
+- Pattern-based intent detection (regex matching)
+- Automatic routing to 10+ workflow types
+- MCP server architecture (consistent with existing servers)
+- Session management for conversation context
+- Configurable workflow mappings</p>
+<p><strong>Files Created</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>services/mcp-servers/langflow-chat/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── Dockerfile                    # Container image definition
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── README.md                     # Complete documentation
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── build.sh                      # Build script (requires Docker)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── pyproject.toml                # Python dependencies
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>└── src/mcp_langflow_chat/
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    ├── __init__.py               # Package init
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    └── server.py                 # Main MCP server (608 lines)
+</code></pre></div></p>
+<p><strong>Committed to GitHub</strong>: ✅ commit <code>ed66909</code></p>
+<hr />
+<h2 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<h3 id="architecture-flow">Architecture Flow<a class="headerlink" href="#architecture-flow" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>User: &quot;hello&quot;
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    ↓
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Chat Backend
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    ↓
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Langflow Chat MCP Server  ← Detects intent: &quot;daily_brief&quot;
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    ↓
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Langflow API
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    ↓
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Workflow 11 (Daily Brief)
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    ↓
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>├─ Weather API (Duluth, MN)
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>├─ Kubernetes MCP
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>├─ Proxmox MCP
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>├─ UniFi MCP
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>├─ Sandfly MCP
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>└─ Claude API (generate brief)
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    ↓
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>Response → Chat Backend → User
+</code></pre></div>
+<h3 id="intent-detection">Intent Detection<a class="headerlink" href="#intent-detection" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>User Says</th>
+<th>Intent Detected</th>
+<th>Workflow Triggered</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"hello", "hi", "hey"</td>
+<td>daily_brief</td>
+<td>workflow-11</td>
+</tr>
+<tr>
+<td>"kubernetes", "k8s", "pods"</td>
+<td>k8s_health</td>
+<td>workflow-1</td>
+</tr>
+<tr>
+<td>"security", "vulnerabilities"</td>
+<td>security_scan</td>
+<td>workflow-3</td>
+</tr>
+<tr>
+<td>"cost", "spending", "budget"</td>
+<td>cost_analysis</td>
+<td>workflow-6</td>
+</tr>
+<tr>
+<td>"logs", "errors", "anomalies"</td>
+<td>log_analysis</td>
+<td>workflow-8</td>
+</tr>
+<tr>
+<td>"deploy", "deployment"</td>
+<td>deployment_check</td>
+<td>workflow-7</td>
+</tr>
+<tr>
+<td>"health", "status", "dashboard"</td>
+<td>service_health</td>
+<td>workflow-9</td>
+</tr>
+<tr>
+<td>"proxmox", "vm", "server"</td>
+<td>infrastructure</td>
+<td>workflow-2</td>
+</tr>
+<tr>
+<td>"alert", "notification"</td>
+<td>alert_analysis</td>
+<td>workflow-5</td>
+</tr>
+<tr>
+<td>"documentation", "docs"</td>
+<td>documentation</td>
+<td>workflow-10</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="kubernetes-manifests">Kubernetes Manifests<a class="headerlink" href="#kubernetes-manifests" title="Permanent link">&para;</a></h2>
+<p><strong>Location</strong>: <code>~/Projects/cortex-gitops/apps/cortex-system/</code></p>
+<p><strong>Files Created</strong>:
+1. <code>langflow-chat-mcp-deployment.yaml</code> - Deployment configuration
+2. <code>langflow-chat-mcp-service.yaml</code> - ClusterIP service
+3. <code>langflow-chat-mcp-build-job.yaml</code> - Kaniko build job (blocked by image pull)</p>
+<p><strong>Committed to GitHub</strong>: ✅ commit <code>bae616f</code></p>
+<hr />
+<h2 id="current-status">Current Status<a class="headerlink" href="#current-status" title="Permanent link">&para;</a></h2>
+<h3 id="completed">✅ Completed<a class="headerlink" href="#completed" title="Permanent link">&para;</a></h3>
+<ol>
+<li>MCP server code written and tested</li>
+<li>Dockerfile created</li>
+<li>Kubernetes manifests created</li>
+<li>Documentation written</li>
+<li>Code committed to cortex-platform</li>
+<li>Manifests committed to cortex-gitops</li>
+</ol>
+<h3 id="blocked">⏸️ Blocked<a class="headerlink" href="#blocked" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Build Job</strong>: Kaniko job blocked by alpine/git image pull (TLS handshake failure)</li>
+<li><strong>Image Push</strong>: Can't push to registry without successful build</li>
+<li><strong>Deployment</strong>: Can't deploy without image in registry</li>
+</ol>
+<h3 id="manual-build-required">🔧 Manual Build Required<a class="headerlink" href="#manual-build-required" title="Permanent link">&para;</a></h3>
+<p>Since the cluster can't pull <code>alpine/git</code> due to network issues, the build needs to be done manually on a machine with Docker access.</p>
+<hr />
+<h2 id="manual-build-instructions">Manual Build Instructions<a class="headerlink" href="#manual-build-instructions" title="Permanent link">&para;</a></h2>
+<h3 id="option-1-build-on-local-machine-with-docker">Option 1: Build on Local Machine with Docker<a class="headerlink" href="#option-1-build-on-local-machine-with-docker" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Clone the repo (if not already)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>~/Projects/cortex-platform/services/mcp-servers/langflow-chat
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Build the image</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>langflow-chat-mcp-server:latest<span class="w"> </span>.
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Tag for registry</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>docker<span class="w"> </span>tag<span class="w"> </span>langflow-chat-mcp-server:latest<span class="w"> </span><span class="m">10</span>.43.170.72:5000/langflow-chat-mcp-server:latest
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Push to cluster registry</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>docker<span class="w"> </span>push<span class="w"> </span><span class="m">10</span>.43.170.72:5000/langflow-chat-mcp-server:latest
+</code></pre></div>
+<h3 id="option-2-build-on-k3s-node-directly">Option 2: Build on K3s Node Directly<a class="headerlink" href="#option-2-build-on-k3s-node-directly" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># SSH to a k3s node</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>ssh<span class="w"> </span>k3s-master01
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Install Docker if not present</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># (or use existing container runtime)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Clone the repo</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ry-ops/cortex-platform.git
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="nb">cd</span><span class="w"> </span>cortex-platform/services/mcp-servers/langflow-chat
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># Build with whatever runtime is available</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># Example with containerd:</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>nerdctl<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span><span class="m">10</span>.43.170.72:5000/langflow-chat-mcp-server:latest<span class="w"> </span>.
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>nerdctl<span class="w"> </span>push<span class="w"> </span><span class="m">10</span>.43.170.72:5000/langflow-chat-mcp-server:latest
+</code></pre></div>
+<h3 id="option-3-fix-kaniko-build-job">Option 3: Fix Kaniko Build Job<a class="headerlink" href="#option-3-fix-kaniko-build-job" title="Permanent link">&para;</a></h3>
+<p>Edit <code>langflow-chat-mcp-build-job.yaml</code> to use a different git clone method:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">initContainers</span><span class="p">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git-clone</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">command</span><span class="p">:</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sh</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-c</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="no"># Use wget to download GitHub tarball instead of git clone</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="no">wget -O /tmp/repo.tar.gz https://github.com/ry-ops/cortex-platform/archive/refs/heads/main.tar.gz</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="no">tar -xzf /tmp/repo.tar.gz -C /workspace --strip-components=1</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="no">ls -la /workspace/services/mcp-servers/langflow-chat</span>
+</code></pre></div>
+<hr />
+<h2 id="next-steps-after-build">Next Steps After Build<a class="headerlink" href="#next-steps-after-build" title="Permanent link">&para;</a></h2>
+<h3 id="1-deploy-the-mcp-server">1. Deploy the MCP Server<a class="headerlink" href="#1-deploy-the-mcp-server" title="Permanent link">&para;</a></h3>
+<p>After the image is in the registry, deploy it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>~/Projects/cortex-gitops/apps/cortex-system/langflow-chat-mcp-deployment.yaml
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>~/Projects/cortex-gitops/apps/cortex-system/langflow-chat-mcp-service.yaml
+</code></pre></div>
+<p>Verify deployment:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>cortex-system<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>langflow-chat-mcp
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>cortex-system<span class="w"> </span>deployment/langflow-chat-mcp-server
+</code></pre></div></p>
+<h3 id="2-update-chat-backend">2. Update Chat Backend<a class="headerlink" href="#2-update-chat-backend" title="Permanent link">&para;</a></h3>
+<p>Modify <code>cortex-chat-backend-simple-deployment.yaml</code> to route to the MCP server:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">env</span><span class="p">:</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CORTEX_URL</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://langflow-chat-mcp-server.cortex-system.svc.cluster.local:3000</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="c1"># Was: http://cortex-orchestrator.cortex.svc.cluster.local:8000</span>
+</code></pre></div>
+<p>Apply the change:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>~/Projects/cortex-gitops
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>add<span class="w"> </span>apps/cortex-chat/cortex-chat-backend-simple-deployment.yaml
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Route chat to Langflow via MCP server&quot;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</code></pre></div></p>
+<h3 id="3-import-workflows-into-langflow">3. Import Workflows into Langflow<a class="headerlink" href="#3-import-workflows-into-langflow" title="Permanent link">&para;</a></h3>
+<p>Open https://langflow.ry-ops.dev and import each workflow:</p>
+<p><strong>Files to Import</strong> (from <code>~/Desktop/LANGFLOW-WORKFLOWS/</code>):
+1. workflow-1-k8s-health.json
+2. workflow-2-mcp-symphony.json
+3. workflow-3-github-security.json
+4. workflow-4-chat-router.json
+5. workflow-5-alert-analyzer.json
+6. workflow-6-cost-tracker.json
+7. workflow-7-deployment-validator.json
+8. workflow-8-log-analyzer.json
+9. workflow-9-service-dashboard.json
+10. workflow-10-auto-docs.json
+11. workflow-11-cortex-daily-brief.json
+12. workflow-12-hello-webhook.json</p>
+<p>For each workflow:
+1. Click "New Project" → "Import"
+2. Upload the JSON file
+3. Save the workflow
+4. Note the Flow ID (shown in URL or workflow settings)</p>
+<h3 id="4-configure-workflow-ids-in-mcp-server">4. Configure Workflow IDs in MCP Server<a class="headerlink" href="#4-configure-workflow-ids-in-mcp-server" title="Permanent link">&para;</a></h3>
+<p>After importing, configure the MCP server with the flow IDs.</p>
+<p>Call the <code>set_workflow_id</code> tool for each workflow:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Example for daily_brief workflow</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>cortex-system<span class="w"> </span>deployment/langflow-chat-mcp-server<span class="w"> </span>--<span class="w"> </span>python3<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="s">import asyncio</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="s">import json</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="s">from mcp_langflow_chat.server import router</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="s">async def main():</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="s">    # Set flow IDs (replace with actual IDs from Langflow)</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="s">    router.WORKFLOWS[&quot;daily_brief&quot;][&quot;flow_id&quot;] = &quot;abc123-your-flow-id&quot;</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="s">    router.WORKFLOWS[&quot;k8s_health&quot;][&quot;flow_id&quot;] = &quot;def456-your-flow-id&quot;</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="s">    # ... set all 10 workflow IDs</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="s">    print(&quot;Workflows configured!&quot;)</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="s">    print(json.dumps({</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="s">        name: {&quot;flow_id&quot;: info[&quot;flow_id&quot;], &quot;configured&quot;: info[&quot;flow_id&quot;] is not None}</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="s">        for name, info in router.WORKFLOWS.items()</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="s">    }, indent=2))</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="s">asyncio.run(main())</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="s">EOF</span>
+</code></pre></div>
+<p><strong>OR</strong> persist the configuration in a ConfigMap:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nt">metadata</span><span class="p">:</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">langflow-workflow-ids</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cortex-system</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="nt">workflow_ids.json</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="no">{</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">      </span><span class="no">&quot;daily_brief&quot;: &quot;your-flow-id-1&quot;,</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">      </span><span class="no">&quot;k8s_health&quot;: &quot;your-flow-id-2&quot;,</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">      </span><span class="no">&quot;security_scan&quot;: &quot;your-flow-id-3&quot;,</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">      </span><span class="no">&quot;cost_analysis&quot;: &quot;your-flow-id-4&quot;,</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">      </span><span class="no">&quot;log_analysis&quot;: &quot;your-flow-id-5&quot;,</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">      </span><span class="no">&quot;deployment_check&quot;: &quot;your-flow-id-6&quot;,</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">      </span><span class="no">&quot;service_health&quot;: &quot;your-flow-id-7&quot;,</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">      </span><span class="no">&quot;infrastructure&quot;: &quot;your-flow-id-8&quot;,</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">      </span><span class="no">&quot;alert_analysis&quot;: &quot;your-flow-id-9&quot;,</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">      </span><span class="no">&quot;documentation&quot;: &quot;your-flow-id-10&quot;</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">    </span><span class="no">}</span>
+</code></pre></div>
+<p>Then mount it in the deployment and load on startup.</p>
+<h3 id="5-add-workflow-quick-buttons-to-chat-ui">5. Add Workflow Quick Buttons to Chat UI<a class="headerlink" href="#5-add-workflow-quick-buttons-to-chat-ui" title="Permanent link">&para;</a></h3>
+<p>Update the chat frontend navigation to include quick action buttons for each workflow.</p>
+<p><strong>File to Modify</strong>: Chat frontend navigation component</p>
+<p><strong>Example Buttons</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">workflowButtons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Daily Brief&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;K8s Health&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;show kubernetes status&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Security Scan&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;check security vulnerabilities&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Cost Analysis&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;show spending&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;View Logs&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;analyze logs&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Deployment Check&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;validate deployment&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Service Health&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;show service health&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Infrastructure&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;check proxmox status&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Alerts&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;show alerts&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Generate Docs&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">trigger</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;generate documentation&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="p">];</span>
+</code></pre></div></p>
+<p>When clicked, each button sends its trigger message to chat, which routes to the appropriate workflow.</p>
+<h3 id="6-test-end-to-end">6. Test End-to-End<a class="headerlink" href="#6-test-end-to-end" title="Permanent link">&para;</a></h3>
+<p>Test each workflow:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Test via chat backend API</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://cortex-chat-backend-simple.cortex-chat.svc.cluster.local:8080/api/chat<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="s1">    &quot;message&quot;: &quot;hello&quot;,</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="s1">    &quot;session_id&quot;: &quot;test-session-1&quot;</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="s1">  }&#39;</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1"># Should return daily brief from workflow-11</span>
+</code></pre></div>
+<p>Test all patterns:
+- "hello" → Daily brief
+- "show k8s pods" → K8s health
+- "check security" → Security scan
+- "how much are we spending" → Cost analysis
+- "analyze logs" → Log analysis
+- "validate deployment" → Deployment check
+- "show service health" → Service dashboard
+- "check proxmox" → Infrastructure status
+- "show alerts" → Alert analysis
+- "generate docs" → Documentation</p>
+<hr />
+<h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
+<p>The MCP server requires these environment variables (already configured in deployment):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LANGFLOW_URL</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://langflow.cortex-system.svc.cluster.local:7860&quot;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LANGFLOW_API_KEY</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="nt">valueFrom</span><span class="p">:</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">secretKeyRef</span><span class="p">:</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">langflow-global-vars</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">      </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LANGFLOW_STORE_API_KEY</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ANTHROPIC_API_KEY</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">  </span><span class="nt">valueFrom</span><span class="p">:</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="nt">secretKeyRef</span><span class="p">:</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">langflow-global-vars</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">      </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ANTHROPIC_API_KEY</span>
+</code></pre></div>
+<hr />
+<h2 id="mcp-tools-available">MCP Tools Available<a class="headerlink" href="#mcp-tools-available" title="Permanent link">&para;</a></h2>
+<h3 id="chat"><code>chat</code><a class="headerlink" href="#chat" title="Permanent link">&para;</a></h3>
+<p>Route a chat message to the appropriate workflow.</p>
+<p><strong>Input</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="p">,</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user-123&quot;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Output</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Good evening, Ryan! 👋 Here&#39;s your Cortex status brief...&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">&quot;intent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;daily_brief&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="nt">&quot;workflow&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Daily status brief with weather and infrastructure&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span><span class="nt">&quot;flow_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123&quot;</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="get_workflows"><code>get_workflows</code><a class="headerlink" href="#get_workflows" title="Permanent link">&para;</a></h3>
+<p>List all workflows and their configuration status.</p>
+<p><strong>Output</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">&quot;daily_brief&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Daily status brief with weather and infrastructure&quot;</span><span class="p">,</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="nt">&quot;patterns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;\\b(hello|hi|hey)\\b&quot;</span><span class="p">],</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="nt">&quot;flow_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123&quot;</span><span class="p">,</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="nt">&quot;configured&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">  </span><span class="err">...</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="set_workflow_id"><code>set_workflow_id</code><a class="headerlink" href="#set_workflow_id" title="Permanent link">&para;</a></h3>
+<p>Configure a workflow's Langflow flow ID.</p>
+<p><strong>Input</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p">{</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">&quot;workflow_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;daily_brief&quot;</span><span class="p">,</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">&quot;flow_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123def456&quot;</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="mcp-server-wont-start">MCP Server Won't Start<a class="headerlink" href="#mcp-server-wont-start" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>cortex-system<span class="w"> </span>deployment/langflow-chat-mcp-server
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># Check for missing environment variables or import errors</span>
+</code></pre></div>
+<h3 id="workflow-not-triggering">Workflow Not Triggering<a class="headerlink" href="#workflow-not-triggering" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Call get_workflows to see if flow_id is configured</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>cortex-system<span class="w"> </span>deployment/langflow-chat-mcp-server<span class="w"> </span>--<span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="s2">from mcp_langflow_chat.server import router</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="s2">import json</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="s2">print(json.dumps({k: v.get(&#39;flow_id&#39;) for k, v in router.WORKFLOWS.items()}, indent=2))</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="s2">&quot;</span>
+</code></pre></div>
+<h3 id="chat-still-goes-to-orchestrator">Chat Still Goes to Orchestrator<a class="headerlink" href="#chat-still-goes-to-orchestrator" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Verify chat backend CORTEX_URL is updated</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>cortex-chat-backend-simple<span class="w"> </span>-n<span class="w"> </span>cortex-chat<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CORTEX_URL
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># Should show: http://langflow-chat-mcp-server.cortex-system.svc.cluster.local:3000</span>
+</code></pre></div>
+<h3 id="langflow-returns-errors">Langflow Returns Errors<a class="headerlink" href="#langflow-returns-errors" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Check Langflow logs</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>cortex-system<span class="w"> </span>deployment/langflow
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Check if workflows are enabled in Langflow UI</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1"># https://langflow.ry-ops.dev</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1"># Verify global variables are loaded</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>langflow-global-vars<span class="w"> </span>-n<span class="w"> </span>cortex-system<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<hr />
+<h2 id="benefits-of-this-architecture">Benefits of This Architecture<a class="headerlink" href="#benefits-of-this-architecture" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Pattern-Based Routing</strong>: No AI required for intent detection (fast, deterministic)</li>
+<li><strong>MCP Consistency</strong>: Uses same pattern as other MCP servers</li>
+<li><strong>Visual Workflow Editing</strong>: Modify workflows in Langflow UI without code changes</li>
+<li><strong>Easy Extension</strong>: Add new workflows by:</li>
+<li>Creating workflow in Langflow</li>
+<li>Adding pattern to MCP server</li>
+<li>Restarting MCP server</li>
+<li><strong>Testable</strong>: Each component independently testable</li>
+<li><strong>Observable</strong>: Logs at each step (intent detection, routing, execution)</li>
+<li><strong>Fallback</strong>: If workflow not configured, returns helpful error message</li>
+</ol>
+<hr />
+<h2 id="future-enhancements">Future Enhancements<a class="headerlink" href="#future-enhancements" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>AI-Powered Intent Detection</strong>: Use Claude to detect intent instead of regex</li>
+<li><strong>Multi-Intent</strong>: Handle messages that match multiple intents</li>
+<li><strong>Context Awareness</strong>: Use conversation history to improve routing</li>
+<li><strong>Workflow Chaining</strong>: Trigger multiple workflows in sequence</li>
+<li><strong>Conditional Routing</strong>: Route based on user permissions, time of day, etc.</li>
+<li><strong>Metrics</strong>: Track workflow usage, response times, success rates</li>
+<li><strong>A/B Testing</strong>: Test different workflows for the same intent</li>
+</ol>
+<hr />
+<h2 id="files-summary">Files Summary<a class="headerlink" href="#files-summary" title="Permanent link">&para;</a></h2>
+<h3 id="cortex-platform-code-repository">cortex-platform (Code Repository)<a class="headerlink" href="#cortex-platform-code-repository" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>services/mcp-servers/langflow-chat/
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>├── Dockerfile                          ✅ Created
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>├── README.md                           ✅ Created
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>├── build.sh                            ✅ Created
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>├── pyproject.toml                      ✅ Created
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>└── src/mcp_langflow_chat/
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>    ├── __init__.py                     ✅ Created
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>    └── server.py                       ✅ Created (608 lines)
+</code></pre></div>
+<p><strong>Git Status</strong>: Committed and pushed (ed66909)</p>
+<h3 id="cortex-gitops-infrastructure-repository">cortex-gitops (Infrastructure Repository)<a class="headerlink" href="#cortex-gitops-infrastructure-repository" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>apps/cortex-system/
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>├── langflow-chat-mcp-deployment.yaml   ✅ Created
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>├── langflow-chat-mcp-service.yaml      ✅ Created
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>└── langflow-chat-mcp-build-job.yaml    ⏸️  Created (blocked)
+</code></pre></div>
+<p><strong>Git Status</strong>: Committed and pushed (bae616f)</p>
+<h3 id="desktop-deliverables">Desktop (Deliverables)<a class="headerlink" href="#desktop-deliverables" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>~/Desktop/
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>├── LANGFLOW-WORKFLOWS/                 ✅ 12 workflow JSON files
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>│   ├── workflow-1-k8s-health.json
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>│   ├── workflow-2-mcp-symphony.json
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>│   ├── workflow-3-github-security.json
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>│   ├── workflow-4-chat-router.json
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>│   ├── workflow-5-alert-analyzer.json
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>│   ├── workflow-6-cost-tracker.json
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>│   ├── workflow-7-deployment-validator.json
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>│   ├── workflow-8-log-analyzer.json
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>│   ├── workflow-9-service-dashboard.json
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a>│   ├── workflow-10-auto-docs.json
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a>│   ├── workflow-11-cortex-daily-brief.json
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>│   ├── workflow-12-hello-webhook.json
+<a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a>│   └── README.md
+<a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a>├── LANGFLOW-INTEGRATION-COMPLETE.md    ✅ Langflow setup summary
+<a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a>├── LANGFLOW-CHAT-INTEGRATION-PLAN.md   ✅ Integration plan
+<a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a>└── LANGFLOW-CHAT-MCP-INTEGRATION.md    ✅ This file
+</code></pre></div>
+<hr />
+<h2 id="success-criteria">Success Criteria<a class="headerlink" href="#success-criteria" title="Permanent link">&para;</a></h2>
+<p>✅ MCP server code written
+✅ Dockerfile created
+✅ Kubernetes manifests created
+✅ Code committed to GitHub
+✅ Pattern-based routing implemented
+✅ 10+ workflow types supported
+✅ Documentation complete</p>
+<p>⏸️ Container image built and pushed (blocked - needs manual build)
+⏸️ MCP server deployed to cluster (blocked - needs image)
+⏸️ Chat backend updated to route to MCP server (blocked - needs MCP server)
+⏸️ Workflows imported to Langflow (manual user step)
+⏸️ Workflow IDs configured (blocked - needs workflows imported)
+⏸️ Chat UI updated with quick buttons (blocked - needs working integration)</p>
+<hr />
+<h2 id="recommended-next-action">Recommended Next Action<a class="headerlink" href="#recommended-next-action" title="Permanent link">&para;</a></h2>
+<p><strong>Build the container image manually</strong> using one of the three options above, then:</p>
+<ol>
+<li>Deploy the MCP server</li>
+<li>Update chat backend to use it</li>
+<li>Import workflows to Langflow</li>
+<li>Configure workflow IDs</li>
+<li>Test end-to-end</li>
+<li>Add quick buttons to chat UI</li>
+</ol>
+<p><strong>Estimated Time</strong>: 1-2 hours after image is built</p>
+<hr />
+<p><strong>Status</strong>: Ready for manual build and deployment
+<strong>Blocker</strong>: Container image build (network TLS handshake failure in cluster)
+<strong>Workaround</strong>: Manual build on machine with Docker access</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

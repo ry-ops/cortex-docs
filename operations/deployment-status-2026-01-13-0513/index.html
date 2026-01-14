@@ -1,0 +1,2634 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-managing knowledge base for Cortex">
+      
+      
+      
+        <link rel="canonical" href="https://docs.ry-ops.dev/operations/deployment-status-2026-01-13-0513/">
+      
+      
+        <link rel="prev" href="../cortex-status-2026-01-13-0707/">
+      
+      
+        <link rel="next" href="../outline-blocker-2026-01-13/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Deployment Status 2026-01-13 - Cortex Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cortex-deployment-status-update" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cortex Documentation" class="md-header__button md-logo" aria-label="Cortex Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cortex Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deployment Status 2026-01-13
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ry-ops/cortex-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ry-ops/cortex-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../_index/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Cortex Knowledge Index
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../_inbox/PROMPT-cortex-docs-genesis/" class="md-tabs__link">
+          
+  
+  
+   inbox
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../knowledge/langflow-chat-integration-design/" class="md-tabs__link">
+          
+  
+  
+  Knowledge
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../meta/curation-workflow/" class="md-tabs__link">
+          
+  
+  
+  Meta
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../cortex-status-2026-01-13-0707/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../projects/documentation-system-2026-01-14/" class="md-tabs__link">
+          
+  
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cortex Documentation" class="md-nav__button md-logo" aria-label="Cortex Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cortex Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ry-ops/cortex-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ry-ops/cortex-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cortex Knowledge Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+     inbox
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+     inbox
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_inbox/PROMPT-cortex-docs-genesis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Genesis Prompt: cortex-docs Repository
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Knowledge
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../knowledge/langflow-chat-integration-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langflow Chat Integration Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../knowledge/langflow-mcp-server-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langflow MCP Server Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Meta
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Meta
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../meta/curation-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Curation Workflow
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--design"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cortex-status-2026-01-13-0707/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cortex Status Update 2026-01-13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Status 2026-01-13
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Status 2026-01-13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-progress-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment Progress Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment Progress Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#successfully-deployed-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Successfully Deployed &amp; Running
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Successfully Deployed &amp; Running">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cortex-system-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-system Namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cortex-knowledge-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-knowledge Namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cortex-cicd-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-cicd Namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏳ In Progress
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⏳ In Progress">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cortex-knowledge-namespace_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-knowledge Namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#issues-fixed-this-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issues Fixed This Session
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Issues Fixed This Session">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-docker-hub-tls-handshake-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Docker Hub TLS Handshake Failures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-resource-ratio-violations-limitrange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Resource Ratio Violations (LimitRange)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-postgresql-service-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. PostgreSQL Service Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-phoenix-database-migration-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Phoenix Database Migration Failures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-longhorn-csi-node-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Longhorn CSI Node Availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-memory-constraints-on-worker-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Memory Constraints on Worker Nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-outline-mcp-server-image-pull" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. outline-mcp-server Image Pull
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commits-made-this-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commits Made This Session
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-operational-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Operational Services
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Current Operational Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#knowledge-observability-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Knowledge &amp; Observability Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build &amp; CI/CD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#immediate-next-5-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immediate (Next 5-10 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-configuration-next-1-2-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Configuration (Next 1-2 hours)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-testing-next-2-3-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration &amp; Testing (Next 2-3 days)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal-registry-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal Registry Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#longhorn-vs-local-path-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Longhorn vs local-path Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#master-node-scheduling-for-memory-intensive-workloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master Node Scheduling for Memory-Intensive Workloads
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lessons-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lessons Learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Health
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Health">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#node-memory-utilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node Memory Utilization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#argocd-application-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ArgoCD Application Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Session Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-time-improvement-projected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Time Improvement (Projected)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Assessment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Risk Assessment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#low-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medium-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Medium Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-state-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End State Goals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="End State Goals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#this-session-complete-within-30-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        This Session (Complete within 30 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-session-within-48-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Session (Within 48 hours)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../outline-blocker-2026-01-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outline Deployment Blocker
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--blocked"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/documentation-system-2026-01-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation System
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--completed"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/langflow-integration-2026-01-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langflow Integration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--completed"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/langflow-workflows-2026-01-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langflow Workflows
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--completed"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-progress-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment Progress Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment Progress Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#successfully-deployed-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Successfully Deployed &amp; Running
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Successfully Deployed &amp; Running">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cortex-system-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-system Namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cortex-knowledge-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-knowledge Namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cortex-cicd-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-cicd Namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏳ In Progress
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⏳ In Progress">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cortex-knowledge-namespace_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cortex-knowledge Namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#issues-fixed-this-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issues Fixed This Session
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Issues Fixed This Session">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-docker-hub-tls-handshake-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Docker Hub TLS Handshake Failures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-resource-ratio-violations-limitrange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Resource Ratio Violations (LimitRange)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-postgresql-service-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. PostgreSQL Service Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-phoenix-database-migration-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Phoenix Database Migration Failures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-longhorn-csi-node-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Longhorn CSI Node Availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-memory-constraints-on-worker-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Memory Constraints on Worker Nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-outline-mcp-server-image-pull" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. outline-mcp-server Image Pull
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commits-made-this-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commits Made This Session
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-operational-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Operational Services
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Current Operational Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#knowledge-observability-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Knowledge &amp; Observability Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build &amp; CI/CD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#immediate-next-5-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immediate (Next 5-10 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-configuration-next-1-2-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Configuration (Next 1-2 hours)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-testing-next-2-3-days" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration &amp; Testing (Next 2-3 days)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal-registry-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal Registry Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#longhorn-vs-local-path-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Longhorn vs local-path Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#master-node-scheduling-for-memory-intensive-workloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master Node Scheduling for Memory-Intensive Workloads
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lessons-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lessons Learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Health
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Health">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#node-memory-utilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node Memory Utilization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#argocd-application-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ArgoCD Application Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Session Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-time-improvement-projected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Time Improvement (Projected)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Assessment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Risk Assessment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#low-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medium-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Medium Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-state-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End State Goals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="End State Goals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#this-session-complete-within-30-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        This Session (Complete within 30 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-session-within-48-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Session (Within 48 hours)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <nav class="md-tags" >
+    
+      
+      
+      
+      
+        <span class="md-tag">agents</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">deployment</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">status</span>
+      
+    
+  </nav>
+
+
+  
+    <a href="https://github.com/ry-ops/cortex-docs/edit/main/vault/operations/deployment-status-2026-01-13-0513.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="cortex-deployment-status-update">Cortex Deployment Status Update<a class="headerlink" href="#cortex-deployment-status-update" title="Permanent link">&para;</a></h1>
+<p><strong>Date</strong>: 2026-01-13
+<strong>Session</strong>: Continuation - Parallel Agent Deployment Verification</p>
+<hr />
+<h2 id="deployment-progress-summary">Deployment Progress Summary<a class="headerlink" href="#deployment-progress-summary" title="Permanent link">&para;</a></h2>
+<h3 id="successfully-deployed-running">✅ Successfully Deployed &amp; Running<a class="headerlink" href="#successfully-deployed-running" title="Permanent link">&para;</a></h3>
+<h4 id="cortex-system-namespace">cortex-system Namespace<a class="headerlink" href="#cortex-system-namespace" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Langflow</strong> (Visual Workflow Designer)</li>
+<li>Status: ✅ Running (1/1 Ready)</li>
+<li>URL: langflow.ry-ops.dev</li>
+<li>Image: 10.43.170.72:5000/langflow:1.0.19 (internal registry)</li>
+<li>Resources: 250m/1000m CPU, 384Mi/768Mi memory</li>
+<li>Node: Scheduled on master node with toleration</li>
+<li>
+<p>Uptime: 7h27m</p>
+</li>
+<li>
+<p><strong>outline-mcp-server</strong> (Documentation MCP Tools)</p>
+</li>
+<li>Status: ✅ Running (1/1 Ready)</li>
+<li>Uptime: 18m</li>
+<li>Provides: 6 MCP tools for Outline wiki queries</li>
+<li>Image: python:3.11-slim with mounted source code</li>
+<li>Endpoint: http://outline-mcp-server.cortex-system:3004</li>
+</ol>
+<h4 id="cortex-knowledge-namespace">cortex-knowledge Namespace<a class="headerlink" href="#cortex-knowledge-namespace" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Phoenix</strong> (LLM Observability)</li>
+<li>Status: ✅ Running (1/1 Ready)</li>
+<li>URL: observability.ry-ops.dev</li>
+<li>Image: 10.43.170.72:5000/phoenix:latest (internal registry)</li>
+<li>Database: PostgreSQL phoenix database created and migrations completed</li>
+<li>Resources: 250m/1000m CPU, 512Mi/1024Mi memory</li>
+<li>Ports: 6006 (UI), 4317 (OTLP gRPC), 9090 (metrics)</li>
+<li>Node: k3s-master02</li>
+<li>Uptime: 1m</li>
+</ol>
+<h4 id="cortex-cicd-namespace">cortex-cicd Namespace<a class="headerlink" href="#cortex-cicd-namespace" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>CI/CD Persistent Caches</strong></li>
+<li>kaniko-build-cache PVC: ✅ Bound (20Gi, Longhorn)</li>
+<li>dependency-cache PVC: ✅ Bound (10Gi, Longhorn)</li>
+<li>Expected performance gain: 60-70% build time reduction</li>
+</ol>
+<h3 id="in-progress">⏳ In Progress<a class="headerlink" href="#in-progress" title="Permanent link">&para;</a></h3>
+<h4 id="cortex-knowledge-namespace_1">cortex-knowledge Namespace<a class="headerlink" href="#cortex-knowledge-namespace_1" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Outline</strong> (Knowledge Wiki)</li>
+<li>Status: ⏳ ContainerCreating (113s+)</li>
+<li>Issue: Longhorn volume not attaching to k3s-worker02</li>
+<li>PVC: outline-data-pvc (10Gi, Longhorn, Bound)</li>
+<li>Image: docker.getoutline.com/outlinewiki/outline:latest</li>
+<li>Resources: 100m/400m CPU, 256Mi/512Mi memory (reduced to fit workers)</li>
+<li>NodeAffinity: worker nodes only (Longhorn availability)</li>
+<li>Target URL: docs.ry-ops.dev</li>
+</ol>
+<hr />
+<h2 id="issues-fixed-this-session">Issues Fixed This Session<a class="headerlink" href="#issues-fixed-this-session" title="Permanent link">&para;</a></h2>
+<h3 id="1-docker-hub-tls-handshake-failures">1. Docker Hub TLS Handshake Failures<a class="headerlink" href="#1-docker-hub-tls-handshake-failures" title="Permanent link">&para;</a></h3>
+<p><strong>Problem</strong>: All Docker Hub image pulls failing with TLS handshake errors</p>
+<p><strong>Solution</strong>: Created internal registry pattern using skopeo
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Transfer images to internal registry</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="m">10</span>.43.170.72:5000/langflow:1.0.19
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="m">10</span>.43.170.72:5000/postgres:15-alpine
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="m">10</span>.43.170.72:5000/busybox:1.36
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="m">10</span>.43.170.72:5000/phoenix:latest
+</code></pre></div></p>
+<p><strong>Images transferred</strong>: 4 images (Langflow, PostgreSQL, busybox, Phoenix)</p>
+<h3 id="2-resource-ratio-violations-limitrange">2. Resource Ratio Violations (LimitRange)<a class="headerlink" href="#2-resource-ratio-violations-limitrange" title="Permanent link">&para;</a></h3>
+<p><strong>Problem</strong>: Multiple deployments violated 4:1 CPU and 2:1 memory max ratios</p>
+<p><strong>Fixed manifests</strong> (commit 00efc8f, e475d3e, 0922523):
+- outline-db-init-job.yaml: Added missing resources section
+- outline-deployment.yaml: Reduced memory 2Gi → 512Mi, CPU 250m/1000m → 100m/400m
+- phoenix-deployment.yaml: Adjusted to 250m/1000m CPU, 512Mi/1024Mi memory</p>
+<h3 id="3-postgresql-service-connection">3. PostgreSQL Service Connection<a class="headerlink" href="#3-postgresql-service-connection" title="Permanent link">&para;</a></h3>
+<p><strong>Problem</strong>: Manifests referenced wrong service <code>postgres.cortex-system</code></p>
+<p><strong>Solution</strong>: Updated to correct Bitnami service name:
+- <code>postgres-postgresql.cortex-system.svc.cluster.local</code>
+- Password: <code>cortex123</code> (from postgres-postgresql secret)</p>
+<p><strong>Fixed in</strong>: outline-secret.yaml, outline-db-init-job.yaml, phoenix-deployment.yaml</p>
+<h3 id="4-phoenix-database-migration-failures">4. Phoenix Database Migration Failures<a class="headerlink" href="#4-phoenix-database-migration-failures" title="Permanent link">&para;</a></h3>
+<p><strong>Problem</strong>: Phoenix couldn't migrate, database in "dirty state"</p>
+<p><strong>Solution</strong>: Dropped and recreated Phoenix schema
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">DROP</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="k">CASCADE</span><span class="p">;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="k">public</span><span class="p">;</span>
+</code></pre></div>
+<strong>Result</strong>: Phoenix now running successfully with clean migrations</p>
+<h3 id="5-longhorn-csi-node-availability">5. Longhorn CSI Node Availability<a class="headerlink" href="#5-longhorn-csi-node-availability" title="Permanent link">&para;</a></h3>
+<p><strong>Problem</strong>: Master nodes k3s-master01/02 don't have Longhorn CSI driver</p>
+<p><strong>Solution</strong>: Added nodeAffinity to Outline deployment
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">affinity</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">nodeAffinity</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">      </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">matchExpressions</span><span class="p">:</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node-role.kubernetes.io/control-plane</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">          </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DoesNotExist</span>
+</code></pre></div>
+<strong>Nodes with Longhorn</strong>: k3s-master03, k3s-worker01-04 (5 nodes)</p>
+<h3 id="6-memory-constraints-on-worker-nodes">6. Memory Constraints on Worker Nodes<a class="headerlink" href="#6-memory-constraints-on-worker-nodes" title="Permanent link">&para;</a></h3>
+<p><strong>Problem</strong>: All 4 worker nodes at 92-99% memory utilization</p>
+<p><strong>Solution</strong>: 
+- Reduced Outline resources: 512Mi → 256Mi request
+- Added master node tolerations where Longhorn available
+- Scheduled resource-intensive pods on masters when needed</p>
+<h3 id="7-outline-mcp-server-image-pull">7. outline-mcp-server Image Pull<a class="headerlink" href="#7-outline-mcp-server-image-pull" title="Permanent link">&para;</a></h3>
+<p><strong>Problem</strong>: busybox:1.36 initContainer failing with Docker Hub TLS error</p>
+<p><strong>Solution</strong>: Transferred busybox to internal registry, updated deployment</p>
+<hr />
+<h2 id="commits-made-this-session">Commits Made This Session<a class="headerlink" href="#commits-made-this-session" title="Permanent link">&para;</a></h2>
+<p>Total: 10 commits to main branch</p>
+<ol>
+<li><strong>c8e51df</strong>: Fix outline-mcp-server: use internal registry for busybox image</li>
+<li><strong>2acbdcc</strong>: Fix db-init jobs: use internal registry for postgres image</li>
+<li><strong>879ec0b</strong>: Fix Outline PostgreSQL connection: use postgres-postgresql service</li>
+<li><strong>138f19e</strong>: Fix Outline PVC: use Longhorn storage class</li>
+<li><strong>11bf137</strong>: Fix Phoenix: use internal registry image</li>
+<li><strong>88337ab</strong>: Add nodeSelector to Outline for Longhorn nodes only</li>
+<li><strong>e475d3e</strong>: Fix Outline nodeAffinity: schedule only on worker nodes</li>
+<li><strong>3ad0608</strong>: Fix Phoenix PostgreSQL connection: use postgres-postgresql service</li>
+<li><strong>0922523</strong>: Fix Phoenix and Outline: correct DB password and reduce Outline resources</li>
+<li><strong>(Auto-sync pending)</strong>: ArgoCD will sync all changes within 3 minutes</li>
+</ol>
+<hr />
+<h2 id="current-operational-services">Current Operational Services<a class="headerlink" href="#current-operational-services" title="Permanent link">&para;</a></h2>
+<h3 id="core-infrastructure">Core Infrastructure<a class="headerlink" href="#core-infrastructure" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ PostgreSQL (postgres-postgresql.cortex-system)</li>
+<li>✅ Redis (redis-master.cortex-system)</li>
+<li>✅ Internal Docker Registry (10.43.170.72:5000)</li>
+<li>✅ Longhorn Storage (5/7 nodes)</li>
+</ul>
+<h3 id="knowledge-observability-stack">Knowledge &amp; Observability Stack<a class="headerlink" href="#knowledge-observability-stack" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Langflow: Visual workflow designer</li>
+<li>✅ Phoenix: LLM observability &amp; tracing</li>
+<li>✅ outline-mcp-server: Documentation query tools</li>
+<li>⏳ Outline: Wiki (volume attaching)</li>
+</ul>
+<h3 id="build-cicd">Build &amp; CI/CD<a class="headerlink" href="#build-cicd" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Persistent caches for Kaniko (20Gi) and dependencies (10Gi)</li>
+<li>✅ Optimized Tekton pipelines deployed</li>
+</ul>
+<hr />
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<h3 id="immediate-next-5-10-minutes">Immediate (Next 5-10 minutes)<a class="headerlink" href="#immediate-next-5-10-minutes" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Monitor Outline volume attachment</strong></li>
+<li>Longhorn volume pvc-d41f7c19 attaching to k3s-worker02</li>
+<li>
+<p>Expected: Pod transitions from ContainerCreating → Running</p>
+</li>
+<li>
+<p><strong>Verify Outline startup</strong></p>
+</li>
+<li>Check pod logs for successful PostgreSQL connection</li>
+<li>Verify Redis connection</li>
+<li>Test https://docs.ry-ops.dev</li>
+</ol>
+<h3 id="manual-configuration-next-1-2-hours">Manual Configuration (Next 1-2 hours)<a class="headerlink" href="#manual-configuration-next-1-2-hours" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Generate Outline API token</strong></li>
+<li>First-time setup at docs.ry-ops.dev</li>
+<li>Create admin account</li>
+<li>Generate API token</li>
+<li>
+<p>Update outline-mcp-server-secret</p>
+</li>
+<li>
+<p><strong>Migrate strategic documents to Outline</strong></p>
+</li>
+<li>Move content from ~/Desktop/cortex-strategic-docs-2026-01-13/</li>
+<li>Create collections: Strategic Plans, Network Topology, Operational Runbooks, ADRs</li>
+<li>Establish linking structure</li>
+</ol>
+<h3 id="integration-testing-next-2-3-days">Integration &amp; Testing (Next 2-3 days)<a class="headerlink" href="#integration-testing-next-2-3-days" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Instrument Python agents with Phoenix</strong></li>
+<li>Install: <code>pip install arize-phoenix opentelemetry-api opentelemetry-sdk</code></li>
+<li>Add tracer module to cortex-platform</li>
+<li>Instrument masters and workers</li>
+<li>
+<p>Test first traces in Phoenix UI</p>
+</li>
+<li>
+<p><strong>Deploy Python agents to cluster</strong></p>
+</li>
+<li>Create Deployments for masters</li>
+<li>Create Jobs for workers</li>
+<li>Test master → worker delegation</li>
+<li>
+<p>Monitor in Phoenix dashboard</p>
+</li>
+<li>
+<p><strong>Test Langflow workflows</strong></p>
+</li>
+<li>Connect MCP servers (proxmox, unifi, sandfly)</li>
+<li>Create first visual workflow</li>
+<li>
+<p>Export to Python and deploy</p>
+</li>
+<li>
+<p><strong>Test optimized CI/CD pipelines</strong></p>
+</li>
+<li>Trigger build with persistent caches</li>
+<li>Measure actual build times</li>
+<li>Validate 60-70% improvement</li>
+</ol>
+<hr />
+<h2 id="architecture-decisions">Architecture Decisions<a class="headerlink" href="#architecture-decisions" title="Permanent link">&para;</a></h2>
+<h3 id="internal-registry-strategy">Internal Registry Strategy<a class="headerlink" href="#internal-registry-strategy" title="Permanent link">&para;</a></h3>
+<p><strong>Decision</strong>: Use internal registry (10.43.170.72:5000) for all images with Docker Hub TLS issues</p>
+<p><strong>Rationale</strong>:
+- Docker Hub intermittent TLS handshake failures
+- Internal registry provides reliability
+- No external dependencies for critical images</p>
+<p><strong>Pattern</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Transfer image</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>skopeo<span class="w"> </span>copy<span class="w"> </span>docker://image:tag<span class="w"> </span>docker://10.43.170.72:5000/image:tag
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Update deployment</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>image:<span class="w"> </span><span class="m">10</span>.43.170.72:5000/image:tag
+</code></pre></div></p>
+<h3 id="longhorn-vs-local-path-storage">Longhorn vs local-path Storage<a class="headerlink" href="#longhorn-vs-local-path-storage" title="Permanent link">&para;</a></h3>
+<p><strong>Decision</strong>: Use Longhorn for all PVCs requiring reliability</p>
+<p><strong>Rationale</strong>:
+- local-path provisioner failing to create helper pods
+- Longhorn available on 5/7 nodes (all workers + master03)
+- Better replication and management</p>
+<p><strong>Constraint</strong>: Pods with Longhorn PVCs must use nodeAffinity to schedule on Longhorn-enabled nodes</p>
+<h3 id="master-node-scheduling-for-memory-intensive-workloads">Master Node Scheduling for Memory-Intensive Workloads<a class="headerlink" href="#master-node-scheduling-for-memory-intensive-workloads" title="Permanent link">&para;</a></h3>
+<p><strong>Decision</strong>: Allow specific workloads on master nodes via tolerations</p>
+<p><strong>Rationale</strong>:
+- Worker nodes at 92-99% memory utilization
+- Masters have available capacity
+- Only for observability/tooling, not production workloads</p>
+<p><strong>Pattern</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">tolerations</span><span class="p">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CriticalAddonsOnly&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Equal&quot;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NoExecute&quot;</span>
+</code></pre></div></p>
+<hr />
+<h2 id="lessons-learned">Lessons Learned<a class="headerlink" href="#lessons-learned" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p><strong>Always verify service names</strong>: Bitnami charts use <code>&lt;release&gt;-postgresql</code>, not just <code>&lt;release&gt;</code></p>
+</li>
+<li>
+<p><strong>Check CSI driver availability</strong>: Not all nodes have all storage drivers. Use <code>kubectl get csinodes</code> to verify.</p>
+</li>
+<li>
+<p><strong>Longhorn volume attachment can be slow</strong>: Allow 2-3 minutes for first attachment, especially on worker nodes.</p>
+</li>
+<li>
+<p><strong>Database password consistency</strong>: Always pull secrets rather than hardcoding. Phoenix failed multiple times due to password mismatch.</p>
+</li>
+<li>
+<p><strong>Resource ratio enforcement is strict</strong>: LimitRange violations will block pod creation completely. Always verify resources before deploying.</p>
+</li>
+<li>
+<p><strong>Drop/recreate for dirty DB state</strong>: Alembic migration errors often require full schema reset rather than attempting repair.</p>
+</li>
+</ol>
+<hr />
+<h2 id="system-health">System Health<a class="headerlink" href="#system-health" title="Permanent link">&para;</a></h2>
+<h3 id="node-memory-utilization">Node Memory Utilization<a class="headerlink" href="#node-memory-utilization" title="Permanent link">&para;</a></h3>
+<ul>
+<li>k3s-master01: ~40% (available for workloads)</li>
+<li>k3s-master02: ~40% (available for workloads)</li>
+<li>k3s-master03: ~45% (available for workloads)</li>
+<li>k3s-worker01: 95% (constrained)</li>
+<li>k3s-worker02: 99% (constrained)</li>
+<li>k3s-worker03: 97% (constrained)</li>
+<li>k3s-worker04: 92% (constrained)</li>
+</ul>
+<p><strong>Action</strong>: Consider memory-based eviction or scaling down non-critical workloads on workers.</p>
+<h3 id="argocd-application-status">ArgoCD Application Status<a class="headerlink" href="#argocd-application-status" title="Permanent link">&para;</a></h3>
+<ul>
+<li>checkmk: Synced/Progressing</li>
+<li>cortex-csaf: Synced/Progressing</li>
+<li><strong>All others</strong>: OutOfSync/Degraded (waiting for next poll cycle)</li>
+</ul>
+<p><strong>Expected</strong>: ArgoCD will sync all 10 commits within next 3 minutes, transitioning applications to Synced status.</p>
+<hr />
+<h2 id="performance-metrics">Performance Metrics<a class="headerlink" href="#performance-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="session-statistics">Session Statistics<a class="headerlink" href="#session-statistics" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Duration</strong>: ~1.5 hours</li>
+<li><strong>Commits</strong>: 10</li>
+<li><strong>Images transferred</strong>: 4</li>
+<li><strong>Deployments fixed</strong>: 4</li>
+<li><strong>Jobs fixed</strong>: 2</li>
+<li><strong>Secrets created</strong>: 1</li>
+<li><strong>PVCs created</strong>: 3</li>
+<li><strong>Services operational</strong>: 7</li>
+</ul>
+<h3 id="build-time-improvement-projected">Build Time Improvement (Projected)<a class="headerlink" href="#build-time-improvement-projected" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Before</strong>: 10-15 minutes (no cache)</li>
+<li><strong>After</strong>: 3-5 minutes (warm cache)</li>
+<li><strong>Improvement</strong>: 60-70% reduction</li>
+<li><strong>Time saved</strong>: ~50 hours/month (assuming 100 builds)</li>
+</ul>
+<hr />
+<h2 id="risk-assessment">Risk Assessment<a class="headerlink" href="#risk-assessment" title="Permanent link">&para;</a></h2>
+<h3 id="low-risk">Low Risk<a class="headerlink" href="#low-risk" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Phoenix running successfully with clean database</li>
+<li>✅ Langflow operational for 7+ hours</li>
+<li>✅ outline-mcp-server stable</li>
+<li>✅ CI/CD caches provisioned</li>
+</ul>
+<h3 id="medium-risk">Medium Risk<a class="headerlink" href="#medium-risk" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⚠️ Outline volume attachment delay (Longhorn initialization)</li>
+<li>⚠️ Worker node memory pressure (95%+ utilization)</li>
+<li>⚠️ ArgoCD applications OutOfSync (will resolve on next poll)</li>
+</ul>
+<h3 id="mitigations">Mitigations<a class="headerlink" href="#mitigations" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Outline</strong>: Wait for Longhorn attachment (expected &lt;5 min)</li>
+<li><strong>Memory</strong>: Monitor for OOMKill events, consider scaling down non-critical pods</li>
+<li><strong>ArgoCD</strong>: Manual hard refresh if not synced within 10 minutes</li>
+</ul>
+<hr />
+<h2 id="end-state-goals">End State Goals<a class="headerlink" href="#end-state-goals" title="Permanent link">&para;</a></h2>
+<h3 id="this-session-complete-within-30-minutes">This Session (Complete within 30 minutes)<a class="headerlink" href="#this-session-complete-within-30-minutes" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Langflow operational</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> outline-mcp-server operational</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Phoenix operational</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Outline operational (in progress)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> CI/CD caches provisioned</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> All resource violations fixed</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> All database connections fixed</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> All images transferred to internal registry</li>
+</ul>
+<h3 id="next-session-within-48-hours">Next Session (Within 48 hours)<a class="headerlink" href="#next-session-within-48-hours" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Outline API token generated</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Strategic documents migrated to Outline</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Python agents instrumented with Phoenix</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> First Phoenix traces collected</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> First Langflow workflow deployed</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Optimized CI/CD pipeline tested</li>
+</ul>
+<hr />
+<p><strong>Status</strong>: 95% complete. Only Outline volume attachment remaining.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
